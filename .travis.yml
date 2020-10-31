@@ -1,12 +1,16 @@
+sudo: false
 language: node_js
-
+env:
+  CODECOV_TOKEN="2ef65cd8-6f70-4897-add8-7cba20821bf4"
 node_js:
-  - '6'
-  - '7'
-  - '8'
-
+  - 10
+  - 12
+  - 13
+# keep the npm cache to speed up installs
+cache:
+  directories:
+  - "$HOME/.npm"
 script:
-  - npm run jscpd
-  - npm run lint
-  - npm run coverage
-  - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
+  - yarn coverage
+after_success:
+  - codecov -f coverage/lcov.info
